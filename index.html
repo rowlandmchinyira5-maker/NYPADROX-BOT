@@ -372,6 +372,7 @@ button.send:hover { background:var(--accent-secondary); transform:scale(1.02); }
     <div class="header">
       <div class="logo">NP 🐺</div>
       <span class="header-title">🐺 NYPADROX Bot</span>
+      <button class="logout-btn" onclick="hideUserMessages()">Hide user</button>
       <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
     <div class="body" id="chatBody"></div>
@@ -411,11 +412,18 @@ function login() {
 function register() {
   alert("Please use any username/password to login. Registration is not required for demo.");
 }
+function hideUserMessages() {
+  document.querySelectorAll('.bubble.user').forEach(bubble => {
+    bubble.style.display = 'none';
+  });
+}
+
 function logout() {
   localStorage.removeItem('NYPADROX_user');
   document.getElementById('chatPage').classList.add('hidden');
   showHome();
 }
+
 
 // ==================== CHAT UI HELPERS ====================
 function addUserMessage(msg) {
@@ -479,7 +487,7 @@ let step = "none";
 let currentProduct = null;
 
 // ==================== PRODUCT DISPLAY (cards) ====================
-function showProducts() {
+function showProducts() {WebKitCSSMatrixik
   let html = "<b style='font-size:1.2rem;'>📦 Available Products</b><div class='products'>";
   for (let p in products) {
     let stockDisplay = stock[p] !== undefined ? `Stock: ${stock[p]}` : 'Out of stock';
@@ -599,7 +607,7 @@ function sendMsg() {
 
   addUserMessage(text);
   input.value = '';
-
+7
   const lowerText = text.toLowerCase();
 
   // ----- ABOUT -----
@@ -683,66 +691,4 @@ function sendMsg() {
   }
 
   // ----- DEFAULT FALLBACK -----
-  addBotMessage("Try: <b>show products</b> or <b>order chicken</b> or <b>about</b>");
-}
-
-// ==================== VOICE INPUT ====================
-let recognizing = false;
-let recognition;
-if ('webkitSpeechRecognition' in window) {
-  recognition = new webkitSpeechRecognition();
-  recognition.continuous = false;
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-
-  recognition.onstart = () => {
-    recognizing = true;
-    document.getElementById('micBtn').classList.add('listening');
-  };
-  recognition.onend = () => {
-    recognizing = false;
-    document.getElementById('micBtn').classList.remove('listening');
-  };
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    document.getElementById('msg').value = transcript;
-    sendMsg();
-  };
-}
-function toggleMic() {
-  if (!recognition) { alert("Speech recognition not supported"); return; }
-  if (recognizing) { recognition.stop(); }
-  else { recognition.start(); }
-}
-
-// ==================== CAROUSEL (auto slide) ====================
-const carousel = document.getElementById('carousel');
-const sections = carousel.children;
-const dotsContainer = document.getElementById('carouselDots');
-let currentIndex = 0;
-for (let i = 0; i < sections.length; i++) {
-  const dot = document.createElement('div');
-  dot.className = 'dot' + (i === 0 ? ' active' : '');
-  dot.onclick = () => { showSlide(i); };
-  dotsContainer.appendChild(dot);
-}
-function showSlide(idx) {
-  currentIndex = idx;
-  carousel.style.transform = `translateX(-${idx * 100}%)`;
-  const dots = dotsContainer.children;
-  for (let i = 0; i < dots.length; i++) { dots[i].classList.remove('active'); }
-  dots[idx].classList.add('active');
-}
-// Auto slide every 8 seconds
-setInterval(() => { let next = (currentIndex + 1) % sections.length; showSlide(next); }, 8000);
-
-// ==================== WELCOME MESSAGE IF USER IS LOGGED IN ====================
-if (localStorage.getItem('NYPADROX_user')) {
-  showChat();
-  addBotMessage(`Welcome back! I'm your NYPADROX assistant. You can say "show products", "order chicken", or "about".`);
-} else {
-  showHome();
-}
-</script>
-</body>
-</html>
+  addBotMessage("Try to type: 1.Show products:to see all products at once. or 2.Order____(name of product selected ): to order products or 3.About us:to see info of NYPADROX COMPANY. or 4.Rowland Mchinyira: to see information of ownership. Note: follow the instructions i am giving you for easy ordering of products. i will connect you to Nypadrox support team through WhatsApp after filling the orderi process")
