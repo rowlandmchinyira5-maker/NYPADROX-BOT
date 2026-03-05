@@ -428,10 +428,7 @@ function addUserMessage(msg) {
 }
 function addBotMessage(msg) {
   addBotMessageTyping(msg);
-  const bubble = document.createElement('div');
-  bubble.className = 'bubble bot';
-  bubble.textContent = msg;
-  chatBody.appendChild(bubble);
+  
   chatBody.scrollTop = chatBody.scrollHeight;
 }
 // Optional typing effect (simple version)
